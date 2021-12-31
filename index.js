@@ -5,7 +5,7 @@ const getWidth = () => {
     document.body.offsetWidth,
     document.documentElement.offsetWidth,
     document.documentElement.clientWidth
-  );
+  )
 }
 
 const getHeight = () => {
@@ -15,46 +15,45 @@ const getHeight = () => {
     document.body.offsetHeight,
     document.documentElement.offsetHeight,
     document.documentElement.clientHeight
-  );
+  )
 }
 
 const getRandomBetweenNumber = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const BROWSER_HEIGHT = getHeight();
-const BROWSER_WIDTH = getWidth();
-const PARTICLE_TOTAL = 50;
+const BROWSER_HEIGHT = getHeight()
+const BROWSER_WIDTH = getWidth()
+const PARTICLE_TOTAL = 50
+const FIREWORK_INTERVAL = 200
 
-const randomColor = `hsl(${Math.random() * 130 + 0}, 70%, 60%)`;
+const randomColor = `hsl(${Math.random() * 130 + 0}, 70%, 60%)`
 
 function fireworkPopAuto() {
-  const randomYAxis = getRandomBetweenNumber(BROWSER_HEIGHT / 20, (BROWSER_HEIGHT - (BROWSER_HEIGHT / 2)));
-  const randomXAxis = getRandomBetweenNumber(BROWSER_WIDTH / 5, (BROWSER_WIDTH - (BROWSER_WIDTH / 5)));
-  const randomColor = `hsl(${Math.random() * 130 + 0}, 70%, 60%)`;
+  const randomYAxis = getRandomBetweenNumber(BROWSER_HEIGHT / 20, (BROWSER_HEIGHT - (BROWSER_HEIGHT / 2)))
+  const randomXAxis = getRandomBetweenNumber(BROWSER_WIDTH / 5, (BROWSER_WIDTH - (BROWSER_WIDTH / 5)))
+  const randomColor = `hsl(${Math.random() * 130 + 0}, 70%, 60%)`
   fireworkLaunch(randomXAxis, randomYAxis, randomColor)
   for (let i = 0; i < PARTICLE_TOTAL; i++) {
-    createParticle(randomXAxis, randomYAxis, randomColor);
+    createParticle(randomXAxis, randomYAxis, randomColor)
   }
 }
 
 const fireworkPop = (e) => {
-  const randomColor = `hsl(${Math.random() * 130 + 0}, 70%, 60%)`;
+  const randomColor = `hsl(${Math.random() * 130 + 0}, 70%, 60%)`
   fireworkLaunch(e.clientX, e.clientY, randomColor)
   for (let i = 0; i < PARTICLE_TOTAL; i++) {
-    createParticle(e.clientX, e.clientY, randomColor);
+    createParticle(e.clientX, e.clientY, randomColor)
   }
 }
 
 const fireworkLaunch = (xAxis, yAxis, color) => {
-  console.log('yAxis', yAxis)
-  console.log('xAxis', xAxis)
-  const launcher = document.createElement("particle");
-  document.body.appendChild(launcher);
-  launcher.style.width = '5px';
-  launcher.style.height = '5px';
-  launcher.style.background = color;
-  launcher.style.borderRadius = "50%";
+  const launcher = document.createElement("particle")
+  document.body.appendChild(launcher)
+  launcher.style.width = '5px'
+  launcher.style.height = '5px'
+  launcher.style.background = color
+  launcher.style.borderRadius = "50%"
   const animation = launcher.animate(
     [
       {
@@ -71,29 +70,29 @@ const fireworkLaunch = (xAxis, yAxis, color) => {
       easing: "ease-out",
       delay: 0,
     }
-  );
+  )
 
   animation.onfinish = () => {
-    launcher.remove();
-  };
+    launcher.remove()
+  }
 }
 
 const createParticle = (xAxis, yAxis, color) => {
-  const particle = document.createElement("particle");
-  document.body.appendChild(particle);
+  const particle = document.createElement("particle")
+  document.body.appendChild(particle)
 
   const maxSize = 5
   const minSize = 3
-  const particleSize = getRandomBetweenNumber(minSize, maxSize);
+  const particleSize = getRandomBetweenNumber(minSize, maxSize)
 
-  particle.style.width = `${particleSize}px`;
-  particle.style.height = `${particleSize}px`;
+  particle.style.width = `${particleSize}px`
+  particle.style.height = `${particleSize}px`
 
-  const destinationX = xAxis + (Math.random() - 0.5) * 2 * 150;
-  const destinationY = yAxis + (Math.random() - 0.5) * 2 * 150;
+  const destinationX = xAxis + (Math.random() - 0.5) * 2 * 150
+  const destinationY = yAxis + (Math.random() - 0.5) * 2 * 150
 
-  particle.style.background = color;
-  particle.style.borderRadius = "50%";
+  particle.style.background = color
+  particle.style.borderRadius = "50%"
 
   const animation = particle.animate(
     [
@@ -111,16 +110,31 @@ const createParticle = (xAxis, yAxis, color) => {
       easing: "ease-out",
       delay: 1000,
     }
-  );
+  )
 
   animation.onfinish = () => {
-    particle.remove();
-  };
+    particle.remove()
+  }
+}
+
+let isPlay = true
+let fireworkInterval = setInterval(fireworkPopAuto, FIREWORK_INTERVAL)
+
+const playFireworks = () => {
+  fireworkInterval = setInterval(fireworkPopAuto, FIREWORK_INTERVAL)
+}
+
+const handleKeydown = (e) => {
+  if (e.code === 'Space' && isPlay) {
+    clearInterval(fireworkInterval)
+  }
+  if (e.code === 'Space' && !isPlay) {
+    playFireworks()
+  }
+  isPlay = !isPlay
 }
 
 if (document) {
-  document.addEventListener("click", fireworkPop);
+  document.addEventListener("click", fireworkPop)
+  document.addEventListener("keydown", handleKeydown)
 }
-
-setInterval(fireworkPopAuto, 300);
-setInterval(fireworkPopAuto, 700);
