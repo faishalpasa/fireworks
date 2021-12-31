@@ -30,6 +30,11 @@ h2 {
   transition: color 0.5s;
 }
 
+h2 {
+  font-size: 126px;
+  margin-top: 8px;
+}
+
 @keyframes color-change {
   0% {
     color: #ffc400;
