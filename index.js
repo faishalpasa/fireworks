@@ -125,13 +125,18 @@ const playFireworks = () => {
 }
 
 const handleKeydown = (e) => {
-  if (e.code === 'Space' && isPlay) {
-    clearInterval(fireworkInterval)
+  if (e.code === 'Space') {
+    if (isPlay) {
+      clearInterval(fireworkInterval)
+      isPlay = false
+    } else {
+      playFireworks()
+      isPlay = true
+    }
   }
-  if (e.code === 'Space' && !isPlay) {
-    playFireworks()
+  if (e.code !== 'Space') {
+    fireworkPopAuto()
   }
-  isPlay = !isPlay
 }
 
 if (document) {
