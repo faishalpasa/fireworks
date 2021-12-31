@@ -26,6 +26,20 @@ body {
 h1,
 h2 {
   color: #fff;
+  animation: color-change 2s infinite;
+  transition: color 0.5s;
+}
+
+@keyframes color-change {
+  0% {
+    color: #ffc400;
+  }
+  50% {
+    color: #ff7300;
+  }
+  100% {
+    color: #b3ff00;
+  }
 }
 
 .info {
@@ -36,10 +50,42 @@ h2 {
   font-size: 12px;
 }
 
+.button-play {
+  display: none;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 99;
+}
+
+.button-play:hover {
+  border-color: transparent transparent transparent #404040;
+}
+
 @media only screen and (max-width: 525px) {
   .info {
-    font-size: 8px;
-    bottom: 0;
-    left: 0;
+    display: none;
+  }
+
+  .button-play {
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    width: 0;
+    height: 24px;
+    border-color: transparent transparent transparent #fff;
+    transition: 100ms all ease;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 12px 0 12px 18px;
+    display: block;
+  }
+  .button-play.paused {
+    border-style: double;
+    border-width: 0px 0 0px 18px;
+  }
+
+  .button-play:hover {
+    border-color: transparent transparent transparent #fff;
   }
 }

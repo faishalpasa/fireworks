@@ -138,3 +138,18 @@ if (document) {
   document.addEventListener("click", fireworkPop)
   document.addEventListener("keydown", handleKeydown)
 }
+
+const playButton = document.getElementById("button-play")
+
+const handleClickButton = () => {
+  if (isPlay) {
+    playButton.classList.add("paused")
+    clearInterval(fireworkInterval)
+  } else {
+    playButton.classList.remove("paused")
+    playFireworks()
+  }
+  isPlay = !isPlay
+}
+
+playButton.addEventListener('click', handleClickButton)
